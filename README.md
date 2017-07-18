@@ -11,13 +11,11 @@ GET Parameters:
 
 Examples:
 
-`/?txt=hello😂` this will show the big text "hello😂"
-
+`/?txt=hello` this will show the big text "hello"
 `/?txt=hello\nworld&ratio=.8` this will show the big text "hello\word" with a ratio of 0.8
 
-### Live demo
+### demo
 
-[demo1](http://qinst64.duckdns.org/html-big-text/)
+![demo1](demo/demo1.jpg)
 
-
-[demo2](http://qinst64.duckdns.org/html-big-text/?txt=hello, how are you!&ratio=.9)
+![demo2](demo/demo2.jpg)

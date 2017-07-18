@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>html-big-text</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3F51B5">
+    <!-- mdl -->
+    <link href="//cdn.bootcss.com/material-design-lite/1.2.0/material.min.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/material-design-lite/1.2.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- jquery -->
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+    <style>
+      body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #ecf0f1;
+      overflow: hidden;
+      /*no select*/
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: -moz-none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+      }
+      #text {
+      white-space: nowrap;
+      line-height: 100%;
+      text-align: center;/*justify*/
+      }
+    </style>
+  </head>
+  <body>
+    <div id="help">
+      <pre>
+TXT V1.3
+
+This script prints the specified full screen text
+
+
+GET Parameters: 
+- txt  : the text to show, use "\n" to change line
+- ratio: default 1
+
+Examples:
+- /?txt=hello                  => his will show the big text "hello"
+- /?txt=hello\nworld&ratio=.8  => this will show the big text "hello\word" with a ratio of 0.8
+
+All copy right reserved.
+https://github.com/qinst64/html-big-text/
+        </pre>
+    </div>
+    <div id="text">
+    </div>
+    <script>
+      $(window).resize(function() {
+          center();
+      });
+      
+      $("#text").click(function(){
+          toggleFullscreen();
+      });
+      
+      var ratio = urlParam("ratio", 1);
+      var txt = urlParam("txt", null); 
+      if(txt){
+          $("#help").hide();
+           txt = decodeURIComponent(txt);
+          document.title = txt;
+          txt = txt.replace("\n", "<br>");
+          $("#text").text(txt);
+          center(ratio);
+      }
+      //
+      function center(ratio) {
+          var font_size_a = 1;
+          var font_size_b = $(window).width() * ratio;
+          while (font_size_b - font_size_a > 1) {
+              font_size_ab = (font_size_a + font_size_b) / 2;
+              $("#text").css("font-size", font_size_ab + "px");
+              $("#text").css("position", "absolute");
+              $("#text").css("top", Math.max(0, (($(window).height() - $("#text").outerHeight()) / 2) + $(window).scrollTop()) + "px");
+              $("#text").css("left", Math.max(0, (($(window).width() - $("#text").outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+      
+              if ($("#text").outerWidth(true) < $(window).width() * ratio && $("#text").outerHeight(true) < $(window).height() * ratio) {
+                  font_size_a = font_size_ab;
+              } else {
+                  font_size_b = font_size_ab;
+              }
+              console.log($("#text").outerWidth(true) + "，" + $("#text").outerHeight(true));
+          }
+          console.log('OK!')
+      }
+      function urlParam(name, defaultVal=null){
+       var rx = new RegExp('[\&|\?]'+name+'=([^\&\#]+)'),
+       val = window.location.search.match(rx);
+       return !val ? defaultVal:val[1];
+      }
+      function toggleFullscreen(elem) {
+      elem = elem || document.documentElement;
+      if (!document.fullscreenElement && !document.mozFullScreenElement &&
+       !document.webkitFullscreenElement && !document.msFullscreenElement) {
+       if (elem.requestFullscreen) {
+         elem.requestFullscreen();
+       } else if (elem.msRequestFullscreen) {
+         elem.msRequestFullscreen();
+       } else if (elem.mozRequestFullScreen) {
+         elem.mozRequestFullScreen();
+       } else if (elem.webkitRequestFullscreen) {
+         elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+       }
+      } else {
+       if (document.exitFullscreen) {
+         document.exitFullscreen();
+       } else if (document.msExitFullscreen) {
+         document.msExitFullscreen();
+       } else if (document.mozCancelFullScreen) {
+         document.mozCancelFullScreen();
+       } else if (document.webkitExitFullscreen) {
+         document.webkitExitFullscreen();
+       }
+      }
+      }
+    </script>
+  </body>
+</html>
